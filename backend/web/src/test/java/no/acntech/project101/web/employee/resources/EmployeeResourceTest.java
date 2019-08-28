@@ -32,7 +32,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(controllers = EmployeeResource.class)
-//@Disabled // TODO Remove this to run the tests. This annotation diables the tests
+// @Disabled // TODO Remove this to run the tests. This annotation diables the tests
 class EmployeeResourceTest {
 
     @Autowired
@@ -50,8 +50,8 @@ class EmployeeResourceTest {
     @Test
     void findAll() throws Exception {
         final Company company = new Company("ACME", "123456789");
-        final Employee ken = new Employee();
-        final Employee tor = new Employee();
+        final Employee tor = new Employee("asd", "asd", LocalDate.of(1993, 7, 12), 1);
+        final Employee ken = new Employee("asaaad", "asdaaa", LocalDate.of(1991, 7, 12), 1);
 //        ken.setCompany(company);
 //        tor.setCompany(company);
         lenient().when(employeeService.findAll()).thenReturn(Arrays.asList(ken, tor));
@@ -107,7 +107,7 @@ class EmployeeResourceTest {
     @Test
     void updateEmployee() throws Exception {
         final EmployeeDto employeeDto = new EmployeeDto(1L, "Ken", "Guru", LocalDate.of(1994, 10, 1), 1L);
-        final Employee ken = new Employee();
+        final Employee ken = new Employee("asaaad", "asdaaa", LocalDate.of(1991, 7, 12), 1);
         final Company company = new Company("ACME", "123456789");
 
         lenient().when(employeeService.findById(anyLong())).thenReturn(Optional.of(ken));
