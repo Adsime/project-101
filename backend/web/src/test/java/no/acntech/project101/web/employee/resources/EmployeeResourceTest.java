@@ -5,6 +5,7 @@ import no.acntech.project101.company.Company;
 import no.acntech.project101.company.service.CompanyService;
 import no.acntech.project101.employee.Employee;
 import no.acntech.project101.employee.service.EmployeeService;
+import no.acntech.project101.web.TestUtil;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,7 @@ import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -58,7 +60,16 @@ class EmployeeResourceTest {
 
     @Test
     void findById() throws Exception {
-        //TODO: implement
+        final Employee employee = new Employee("Adrian", "Melsom", LocalDate.of(1993, 7, 13));
+        employee.setCompany(new Company("ASD", "123123123"));
+
+        when(employeeService.findById(1L)).thenReturn(Optional.of(employee));
+
+        mockMvc.perform(MockMvcRequestBuilders
+                .get("/employees/{id}", 1)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andReturn();
     }
 
     @Test
@@ -80,7 +91,15 @@ class EmployeeResourceTest {
 
     @Test
     void deleteEmployee() throws Exception {
-        //TODO: implement
+        Employee employee = new Employee("Adrian", "Melsom", LocalDate.of(1993, 7, 13));
+        when(employeeService.findById(1L)).thenReturn(Optional.of(employee));
+
+        mockMvc.perform(MockMvcRequestBuilders
+                .delete("/employees/{id}", 1L)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isAccepted())
+                .andReturn();
     }
 
     @Test

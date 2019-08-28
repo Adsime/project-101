@@ -9,6 +9,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -27,7 +28,15 @@ class EmployeeServiceTest {
 
     @Test
     void save() {
-        //TODO: implement
+        final Employee employee = new Employee("Ken", "Guru", LocalDate.of(1994, 10, 1));
+
+        when(employeeRepository.save(employee)).thenReturn(employee);
+
+        final Employee saved = employeeRepository.save(employee);
+
+        assertThat(saved.getFirstName()).isEqualTo(employee.getFirstName());
+        assertThat(saved.getLastName()).isEqualTo(employee.getLastName());
+        assertThat(saved.getDateOfBirth()).isEqualTo(employee.getDateOfBirth());
     }
 
     @Test
@@ -45,12 +54,24 @@ class EmployeeServiceTest {
 
     @Test
     void findAll() {
-        //TODO: implement
+        final Employee one = new Employee("Ken", "Guru", LocalDate.of(1994, 10, 1));
+        final Employee two = new Employee("Kent", "Gurur", LocalDate.of(1994, 10, 1));
+
+        when(employeeRepository.findAll()).thenReturn(Arrays.asList(one, two));
+
+        List<Employee> l = employeeRepository.findAll();
+
+        assertThat(l).hasSize(2);
+        assertThat(l).contains(one, two);
+
     }
 
     @Test
     void deleteExisting() {
-        //TODO: implement
+        when(employeeRepository.existsById(1L)).thenReturn(true);
+        employeeService.delete(1L);
+
+        verify(employeeRepository).existsById(1L);
     }
 
     @Test
