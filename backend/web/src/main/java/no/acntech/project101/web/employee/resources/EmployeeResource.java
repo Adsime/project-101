@@ -63,9 +63,6 @@ public class EmployeeResource {
 
         ResponseEntity response = new ResponseEntity(HttpStatus.BAD_REQUEST);
 
-
-        System.out.println(id);
-        System.out.println(employeeDto.getId());
         if(this.employees.removeIf(e -> id == employeeDto.getId())) {
             this.employees.add(employeeDto);
             response = ResponseEntity.ok("Employee updated");
